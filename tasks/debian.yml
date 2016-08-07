@@ -1,0 +1,50 @@
+---
+
+- set_fact:
+    kitchen_deps:
+      - ruby2.0
+      - ruby2.0-dev
+    kitchen_gem: /usr/bin/gem2.0
+  when: ansible_distribution_release == 'trusty'
+- set_fact:
+    kitchen_deps:
+      - ruby2.3
+      - ruby2.3-dev
+    kitchen_gem: /usr/bin/gem2.3
+  when: ansible_distribution_release == 'xenial'
+
+- name: apt | kitchen dependencies
+  apt: name={{item}} state=present
+  with_items: "{{ kitchen_deps }}"
+
+## FIXME! whatever settings, installed in /home/vagrant/.gem/ruby/2.0.0/bin/kitchen or /root/.gem ...
+## FIXME! not idempotent
+- name: install kitchen modules with gem - user
+  gem: name={{ item }} state=latest executable={{ kitchen_gem }}
+  with_items: "{{ kitchen_gemlist }}"
+  become: yes
+  become: "{{ kitchen_user }}"
+  when: kitchen_user is defined and kitchen_user != ""
+- file: "dest=/root state=directory mode=0711"
+
+- name: install kitchen modules with gem - global
+  gem: name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no
+  with_items: "{{ kitchen_gemlist }}"
+  when: kitchen_user is not defined or kitchen_user == ""
+
+- set_fact:
+    ansible_ssh_user: vagrant
+  when: ansible_ssh_user is not defined or ansible_ssh_user == ""
+- name: check ruby spec permissions
+  file: "dest={{ item }} state=directory mode=0755 owner={{ ansible_ssh_user }}"
+  with_items:
+    - "/home/{{ ansible_ssh_user }}/.gem"
+    - "/home/{{ ansible_ssh_user }}/.gem/specs"
+  when: ansible_ssh_user is defined and ansible_ssh_user != "" and ansible_ssh_user != 'root'
+- name: check ruby spec permissions - root
+  file: "dest={{ item }} state=directory mode=0711 owner=root"
+  with_items:
+    - "/root/.gem"
+    - "/root/.gem/specs"
+  when: ansible_ssh_user is defined and ansible_ssh_user == 'root'
+

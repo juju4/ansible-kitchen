@@ -1,0 +1,24 @@
+---
+
+kitchen_gemlist:
+    - test-kitchen
+    - kitchen-ansible
+    - kitchen-vagrant
+    - kitchen-docker
+## try to make file transfer faster
+## https://github.com/test-kitchen/test-kitchen/issues/657
+## https://github.com/test-kitchen/kitchen-ec2/issues/93
+    - kitchen-sync
+## avoid to use busser, https://github.com/neillturner/kitchen-verifier-serverspec
+    - kitchen-verifier-serverspec
+## https://github.com/bradenwright/kitchen-lxd_cli
+    - kitchen-lxd_cli
+## for https://github.com/dev-sec/ansible-os-hardening
+## Note extra pkg dependancies
+#    - kitchen-inspec
+#    - fog
+#    - foodcritic
+#    - thor-foodcritic
+
+## if defined, kitchen is set only for this user, else global
+#kitchen_user:

@@ -1,0 +1,18 @@
+---
+
+- name: yum | kitchen dependencies install
+  yum: name={{item}} state=present
+  with_items:
+    - ruby-devel
+
+- name: install kitchen modules with gem - user
+  gem: name={{ item }} state=latest
+  with_items: "{{ kitchen_gemlist }}"
+  become: yes
+  become: "{{ kitchen_user }}"
+  when: kitchen_user is defined and kitchen_user != ""
+
+- name: install kitchen modules with gem - global
+  gem: name={{ item }} state=latest user_install=no
+  when: kitchen_user is not defined or kitchen_user == ""
+
