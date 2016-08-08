@@ -34,9 +34,9 @@
 
 - block:
     - name: install kitchen modules with gem - global
-      gem: name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no
+      gem: "name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no"
       with_items: "{{ kitchen_gemlist }}"
-   - name: check ruby spec permissions - root
+    - name: check ruby spec permissions - root
       file: "dest={{ item }} state=directory mode=0711 owner=root"
       with_items:
         - "/root"
