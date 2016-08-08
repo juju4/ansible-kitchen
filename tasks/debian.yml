@@ -29,13 +29,13 @@
       file: "dest={{ item }} state=directory mode=0755 owner={{ kitchen_user }}"
       with_items:
         - "/home/{{ kitchen_user }}/.gem"
+        - "/home/{{ kitchen_user }}/.gem/specs"
   when: kitchen_user is defined and kitchen_user != "" and kitchen_user != 'root'
 
 - block:
     - name: install kitchen modules with gem - global
       gem: name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no
       with_items: "{{ kitchen_gemlist }}"
-        - "/home/{{ kitchen_user }}/.gem/specs"
    - name: check ruby spec permissions - root
       file: "dest={{ item }} state=directory mode=0711 owner=root"
       with_items:
