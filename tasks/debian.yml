@@ -19,32 +19,28 @@
 
 ## FIXME! whatever settings, installed in /home/vagrant/.gem/ruby/2.0.0/bin/kitchen or /root/.gem ...
 ## FIXME! not idempotent
-- name: install kitchen modules with gem - user
-  gem: name={{ item }} state=latest executable={{ kitchen_gem }}
-  with_items: "{{ kitchen_gemlist }}"
-  become: yes
-  become: "{{ kitchen_user }}"
-  when: kitchen_user is defined and kitchen_user != ""
-- file: "dest=/root state=directory mode=0711"
+- block:
+    - name: install kitchen modules with gem - user
+      gem: name={{ item }} state=latest executable={{ kitchen_gem }}
+      with_items: "{{ kitchen_gemlist }}"
+      become: yes
+      become: "{{ kitchen_user }}"
+    - name: check ruby spec permissions
+      file: "dest={{ item }} state=directory mode=0755 owner={{ kitchen_user }}"
+      with_items:
+        - "/home/{{ kitchen_user }}/.gem"
+  when: kitchen_user is defined and kitchen_user != "" and kitchen_user != 'root'
 
-- name: install kitchen modules with gem - global
-  gem: name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no
-  with_items: "{{ kitchen_gemlist }}"
-  when: kitchen_user is not defined or kitchen_user == ""
-
-- set_fact:
-    ansible_ssh_user: vagrant
-  when: ansible_ssh_user is not defined or ansible_ssh_user == ""
-- name: check ruby spec permissions
-  file: "dest={{ item }} state=directory mode=0755 owner={{ ansible_ssh_user }}"
-  with_items:
-    - "/home/{{ ansible_ssh_user }}/.gem"
-    - "/home/{{ ansible_ssh_user }}/.gem/specs"
-  when: ansible_ssh_user is defined and ansible_ssh_user != "" and ansible_ssh_user != 'root'
-- name: check ruby spec permissions - root
-  file: "dest={{ item }} state=directory mode=0711 owner=root"
-  with_items:
-    - "/root/.gem"
-    - "/root/.gem/specs"
-  when: ansible_ssh_user is defined and ansible_ssh_user == 'root'
+- block:
+    - name: install kitchen modules with gem - global
+      gem: name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no
+      with_items: "{{ kitchen_gemlist }}"
+        - "/home/{{ kitchen_user }}/.gem/specs"
+   - name: check ruby spec permissions - root
+      file: "dest={{ item }} state=directory mode=0711 owner=root"
+      with_items:
+        - "/root"
+        - "/root/.gem"
+        - "/root/.gem/specs"
+  when: kitchen_user is not defined or kitchen_user == "" or kitchen_user == 'root' 
 
