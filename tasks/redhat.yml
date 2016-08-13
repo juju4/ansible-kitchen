@@ -5,14 +5,14 @@
   with_items:
     - ruby-devel
 
-- name: install kitchen modules with gem - user
+- name: RedHat | install kitchen modules with gem - user
   gem: name={{ item }} state=latest
   with_items: "{{ kitchen_gemlist }}"
   become: yes
-  become: "{{ kitchen_user }}"
+  become_user: "{{ kitchen_user }}"
   when: kitchen_user is defined and kitchen_user != ""
 
-- name: install kitchen modules with gem - global
+- name: RedHat | install kitchen modules with gem - global
   gem: name={{ item }} state=latest user_install=no
   when: kitchen_user is not defined or kitchen_user == ""
 
