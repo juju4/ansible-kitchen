@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  vars:
+    - kitchen_user: _kitchen
+  roles:
+    - kitchen
+

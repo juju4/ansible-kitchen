@@ -1,24 +1,13 @@
 ---
 
-- set_fact:
-    kitchen_deps:
-      - ruby2.0
-      - ruby2.0-dev
-    kitchen_gem: /usr/bin/gem2.0
-  when: ansible_distribution_release == 'trusty'
-- set_fact:
-    kitchen_deps:
-      - ruby2.3
-      - ruby2.3-dev
-    kitchen_gem: /usr/bin/gem2.3
-  when: ansible_distribution_release == 'xenial'
-
 - name: apt | kitchen dependencies
   apt: name={{item}} state=present
   with_items: "{{ kitchen_deps }}"
 
 ## FIXME! whatever settings, installed in /home/vagrant/.gem/ruby/2.0.0/bin/kitchen or /root/.gem ...
 ## FIXME! not idempotent
+## FIXME! (item=test-kitchen) => {"cmd": "/usr/bin/gem2.3 query --remote -n '^test-kitchen$'", "failed": true, "item": "test-kitchen", "msg": "ERROR:  While executing gem ... (Errno::EPERM)\n    Operation not permitted - send(2)", "rc": 1, "stderr": "ERROR:  While executing gem ... (Errno::EPERM)\n    Operation not permitted - send(2)\n", "stdout": "", "stdout_lines": []}
+##      OK as root, NOK as jenkins but previous executions were working???
 - block:
     - name: Debian | install kitchen modules with gem - user
       gem: name={{ item }} state=latest executable={{ kitchen_gem }}
@@ -33,6 +22,7 @@
   when: kitchen_user is defined and kitchen_user != "" and kitchen_user != 'root'
 
 - block:
+## FIXME! idempotency OK xenial, NOK trusty+centos7
     - name: Debian | install kitchen modules with gem - global
       gem: "name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no"
       with_items: "{{ kitchen_gemlist }}"
@@ -42,5 +32,5 @@
         - "/root"
         - "/root/.gem"
         - "/root/.gem/specs"
-  when: kitchen_user is not defined or kitchen_user == "" or kitchen_user == 'root' 
+  when: kitchen_user is not defined or kitchen_user == "" or kitchen_user == 'root'
 

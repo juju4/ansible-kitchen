@@ -5,6 +5,8 @@ kitchen_gemlist:
     - kitchen-ansible
     - kitchen-vagrant
     - kitchen-docker
+## Error installing kitchen-digitalocean:\n\tactivesupport requires Ruby version >= 2.2.2
+#    - kitchen-digitalocean
 ## try to make file transfer faster
 ## https://github.com/test-kitchen/test-kitchen/issues/657
 ## https://github.com/test-kitchen/kitchen-ec2/issues/93

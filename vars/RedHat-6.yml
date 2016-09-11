@@ -1,0 +1,6 @@
+---
+
+kitchen_deps:
+    - ruby
+    - rubygems
+    - ruby-devel

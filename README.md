@@ -4,6 +4,8 @@
 Ansible role to setup test-kitchen and plugins
 http://kitchen.ci/
 
+It only use available distribution ruby packages.
+
 ## Requirements & Dependencies
 
 ### Ansible
@@ -13,6 +15,8 @@ It was tested on the following versions:
 ### Operating systems
 
 Tested with vagrant on Ubuntu 14.04, Kitchen test
+Kitchen and many plugins requires ruby 2.0 or more, so Ubuntu precise and Centos-6 are not supported.
+You can eventually use rvm to manage minimum requirements.
 
 ## Example Playbook
 
@@ -48,6 +52,7 @@ $ vagrant ssh
 
 ## Troubleshooting & Known issues
 
+* global gem install is not idempotent
 
 ## License
 

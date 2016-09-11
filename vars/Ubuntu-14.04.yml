@@ -1,0 +1,7 @@
+---
+
+kitchen_deps:
+    - ruby2.0
+    - ruby2.0-dev
+kitchen_gem: /usr/bin/gem2.0
+

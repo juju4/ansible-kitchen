@@ -1,0 +1,10 @@
+---
+
+kitchen_deps:
+    - ruby1.9.3
+## ruby 1.8: not compatible w kitchen
+#    - ruby
+#    - ruby-dev
+#    - rubygems
+kitchen_gem: /usr/bin/gem1.9.3
+
