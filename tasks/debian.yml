@@ -10,7 +10,7 @@
 ##      OK as root, NOK as jenkins but previous executions were working???
 - block:
     - name: Debian | install kitchen modules with gem - user
-      gem: name={{ item }} state=latest executable={{ kitchen_gem }}
+      gem: name={{ item }} state=present executable={{ kitchen_gem }}
       with_items: "{{ kitchen_gemlist }}"
       become: yes
       become_user: "{{ kitchen_user }}"
@@ -24,7 +24,7 @@
 - block:
 ## FIXME! idempotency OK xenial, NOK trusty+centos7
     - name: Debian | install kitchen modules with gem - global
-      gem: "name={{ item }} state=latest executable={{ kitchen_gem }} user_install=no"
+      gem: "name={{ item }} state=present executable={{ kitchen_gem }} user_install=no"
       with_items: "{{ kitchen_gemlist }}"
     - name: Debian | check ruby spec permissions - root
       file: "dest={{ item }} state=directory mode=0711 owner=root"

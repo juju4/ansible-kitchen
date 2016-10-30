@@ -18,13 +18,15 @@
 - include: redhat.yml
   when: ansible_os_family == "RedHat" or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- stat: path=/var/lib/lxd
+- name: check if lxd present
+  stat: path=/var/lib/lxd
   register: havelxd
 - name: add jenkins to lxd group
   user: name=jenkins groups=lxd append=yes
   when: havelxd.stat.exists
 
-- stat: path=/var/lib/docker
+- name: check if docker present
+  stat: path=/var/lib/docker
   register: havedocker
 - block:
     - name: add jenkins to docker group

@@ -5,5 +5,5 @@
 #  vars:
 #    - a:
   roles:
-    - kitchen
+    - juju4.kitchen
 
