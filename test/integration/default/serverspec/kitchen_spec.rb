@@ -15,7 +15,7 @@ describe file('/usr/bin/gem') do
   it { should be_executable }
 end
 
-describe command('find /var/lib/gems/'), :if => os[:family] == 'debian' do
+describe command('find /var/lib/gems/'), :if => os[:family] == 'debian' || os[:family] == 'ubuntu' do
   its(:stdout) { should match /kitchen-ansible/ }
   its(:exit_status) { should eq 0 }
 end
