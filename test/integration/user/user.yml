@@ -4,5 +4,5 @@
   vars:
     - kitchen_user: _kitchen
   roles:
-    - kitchen
+    - juju4.kitchen
 

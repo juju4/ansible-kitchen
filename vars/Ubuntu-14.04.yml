@@ -3,5 +3,8 @@
 kitchen_deps:
     - ruby2.0
     - ruby2.0-dev
+    - libsqlite3-dev
+    - libyaml-dev
+    - libffi-dev
 kitchen_gem: /usr/bin/gem2.0
 

@@ -21,6 +21,9 @@ kitchen_gemlist:
 #    - fog
 #    - foodcritic
 #    - thor-foodcritic
+## security testing?
+    - gauntlt
 
-## if defined, kitchen is set only for this user, else global
-#kitchen_user:
+## if defined and not empty, kitchen is set only for this user, else global
+kitchen_user: ''
+
