@@ -21,6 +21,7 @@
 - name: check if lxd present
   stat: path=/var/lib/lxd
   register: havelxd
+## FIXME! not idempotent?
 - name: add jenkins to lxd group
   user: name=jenkins groups=lxd append=yes
   when: havelxd.stat.exists
