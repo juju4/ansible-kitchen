@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/juju4/ansible-kitchen.svg?branch=master)](https://travis-ci.org/juju4/ansible-kitchen)
+[![Build Status - Master](https://travis-ci.org/juju4/ansible-kitchen.svg?branch=master)](https://travis-ci.org/juju4/ansible-kitchen)
+[![Build Status - Devel](https://travis-ci.org/juju4/ansible-kitchen.svg?branch=devel)](https://travis-ci.org/juju4/ansible-kitchen/branches)
 # kitchen ansible role
 
 Ansible role to setup test-kitchen and plugins
@@ -11,6 +12,7 @@ It only use available distribution ruby packages.
 ### Ansible
 It was tested on the following versions:
  * 2.0
+ * 2.2
 
 ### Operating systems
 
@@ -26,7 +28,7 @@ For example
 ```
 - host: all
   roles:
-    - kitchen
+    - juju4.kitchen
 ```
 
 ## Variables
@@ -39,13 +41,13 @@ This role has a travis basic test (for github), more advanced with kitchen and a
 
 Once you ensured all necessary roles are present, You can test with:
 ```
-$ cd /path/to/roles/kitchen
+$ cd /path/to/roles/juju4.kitchen
 $ kitchen verify
 $ kitchen login
 ```
 or
 ```
-$ cd /path/to/roles/kitchen/test/vagrant
+$ cd /path/to/roles/juju4.kitchen/test/vagrant
 $ vagrant up
 $ vagrant ssh
 ```
