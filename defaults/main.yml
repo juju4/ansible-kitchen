@@ -3,6 +3,7 @@
 kitchen_gemlist:
     - test-kitchen
     - kitchen-ansible
+    - kitchen-salt
     - kitchen-vagrant
     - kitchen-docker
 ## Error installing kitchen-digitalocean:\n\tactivesupport requires Ruby version >= 2.2.2
