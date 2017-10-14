@@ -33,6 +33,12 @@
     - name: add jenkins to docker group
       user: name=jenkins groups=docker append=yes
     - name: add jenkins to sudoers for docker
-      lineinfile: dest=/etc/sudoers.d/99-jenkins-docker line='jenkins   ALL=(root) NOPASSWD{{':'}} /usr/bin/docker' mode=0440 create=yes
+      lineinfile:
+        dest: /etc/sudoers.d/99-jenkins-docker
+        line: 'jenkins   ALL=(root) NOPASSWD{{':'}} /usr/bin/docker'
+        mode: '0440'
+        create: yes
+        backup: yes
+        validate: 'visudo -cf %s'
   when: havedocker.stat.exists
 
