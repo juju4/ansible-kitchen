@@ -1,0 +1,11 @@
+---
+
+kitchen_deps:
+    - ruby2.3
+    - ruby2.3-dev
+## for gem upgrade
+    - libsqlite3-dev
+    - libyaml-dev
+    - libffi-dev
+kitchen_gem: /usr/bin/gem2.3
+

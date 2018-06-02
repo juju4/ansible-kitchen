@@ -13,11 +13,12 @@ It only use available distribution ruby packages.
 It was tested on the following versions:
  * 2.0
  * 2.2
+ * 2.5
 
 ### Operating systems
 
-Tested with vagrant on Ubuntu 14.04, Kitchen test
-Kitchen and many plugins requires ruby 2.0 or more, so Ubuntu precise and Centos-6 are not supported.
+Tested on Ubuntu 14.04, 16.04 and 18.04
+Kitchen and many plugins requires ruby 2.0 or more, so Ubuntu precise and Centos-6 are not supported. Some plugins may requires higher ruby version.
 You can eventually use rvm to manage minimum requirements.
 
 ## Example Playbook
