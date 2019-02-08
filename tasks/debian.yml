@@ -7,26 +7,40 @@
 
 ## FIXME! whatever settings, installed in /home/vagrant/.gem/ruby/2.0.0/bin/kitchen or /root/.gem ...
 ## FIXME! not idempotent
-## FIXME! (item=test-kitchen) => {"cmd": "/usr/bin/gem2.3 query --remote -n '^test-kitchen$'", "failed": true, "item": "test-kitchen", "msg": "ERROR:  While executing gem ... (Errno::EPERM)\n    Operation not permitted - send(2)", "rc": 1, "stderr": "ERROR:  While executing gem ... (Errno::EPERM)\n    Operation not permitted - send(2)\n", "stdout": "", "stdout_lines": []}
+## FIXME! (item=test-kitchen) => {"cmd": "/usr/bin/gem2.3 query --remote -n '^test-kitchen$'", "failed": true,
+##  "item": "test-kitchen", "msg": "ERROR:  While executing gem ... (Errno::EPERM)\n    Operation not permitted
+##  - send(2)", "rc": 1, "stderr": "ERROR:  While executing gem ... (Errno::EPERM)\n    Operation not permitted
+##  - send(2)\n", "stdout": "", "stdout_lines": []}
 ##      OK as root, NOK as jenkins but previous executions were working???
 - block:
     - name: Debian | install kitchen modules with gem - user
-      gem: name={{ item }} state=present executable={{ kitchen_gem }}
+      gem:
+        name: "{{ item }}"
+        state: present
+        executable: "{{ kitchen_gem }}"
       with_items: "{{ kitchen_gemlist }}"
       become: yes
       become_user: "{{ kitchen_user }}"
+      register: pkg_result
+      until: pkg_result is success
     - name: Debian | check ruby spec permissions
       file: "dest={{ item }} state=directory mode=0755 owner={{ kitchen_user }}"
       with_items:
         - "/home/{{ kitchen_user }}/.gem"
         - "/home/{{ kitchen_user }}/.gem/specs"
-  when: kitchen_user is defined and kitchen_user != "" and kitchen_user != 'root'
+  when: kitchen_user is defined and kitchen_user and kitchen_user != 'root'
 
 - block:
 ## FIXME! idempotency OK xenial, NOK trusty+centos7
     - name: Debian | install kitchen modules with gem - global
-      gem: "name={{ item }} state=present executable={{ kitchen_gem }} user_install=no"
+      gem:
+        name: "{{ item }}"
+        state: present
+        executable: "{{ kitchen_gem }}"
+        user_install: no
       with_items: "{{ kitchen_gemlist }}"
+      register: pkg_result
+      until: pkg_result is success
     - name: Debian | check ruby spec permissions - root
       file: "dest={{ item }} state=directory mode=0711 owner=root"
       with_items:

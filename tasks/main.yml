@@ -39,7 +39,7 @@
     - name: add jenkins to sudoers for docker
       lineinfile:
         dest: /etc/sudoers.d/99-jenkins-docker
-        line: "jenkins   ALL=(root) NOPASSWD{{':'}} /usr/bin/docker"
+        line: "jenkins   ALL=(root) NOPASSWD{{ ':' }} /usr/bin/docker"
         mode: '0440'
         create: yes
         backup: yes

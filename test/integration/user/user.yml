@@ -5,4 +5,3 @@
     - kitchen_user: _kitchen
   roles:
     - juju4.kitchen
-
