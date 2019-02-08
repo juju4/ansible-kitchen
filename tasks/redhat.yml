@@ -1,20 +1,20 @@
 ---
 
 - name: yum | kitchen dependencies install
-  yum: name={{item}} state=present
-  with_items: "{{ kitchen_deps }}"
+  yum: name={{ kitchen_deps }} state=present
+  register: pkg_result
+  until: pkg_result is success
 
 - name: RedHat | install kitchen modules with gem - user
   gem: name={{ item }} state=present
   with_items: "{{ kitchen_gemlist }}"
   become: yes
   become_user: "{{ kitchen_user }}"
-  when: kitchen_user is defined and kitchen_user != ""
+  when: kitchen_user is defined and kitchen_user
 
 ## FIXME! idempotency OK xenial, NOK trusty+centos7
 - name: RedHat | install kitchen modules with gem - global
   gem: name={{ item }} state=present user_install=no
   with_items: "{{ kitchen_gemlist }}"
   become: yes
-  when: kitchen_user is not defined or kitchen_user == ""
-
+  when: kitchen_user is not defined or not kitchen_user

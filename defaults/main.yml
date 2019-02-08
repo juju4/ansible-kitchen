@@ -27,4 +27,3 @@ kitchen_gemlist:
 
 ## if defined and not empty, kitchen is set only for this user, else global
 kitchen_user: ''
-

@@ -7,4 +7,3 @@ kitchen_deps:
 #    - ruby-dev
 #    - rubygems
 kitchen_gem: /usr/bin/gem1.9.3
-

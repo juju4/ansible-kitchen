@@ -5,18 +5,22 @@
   when: ansible_distribution == 'Ubuntu'
 - name: Include version-specific variables for RedHat
   include_vars: "RedHat-{{ ansible_distribution_version.split('.')[0] }}.yml"
-  when: ansible_os_family == "RedHat" or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_os_family == "RedHat"
 
 - name: Check kitchen user exists
   user: name={{ kitchen_user }}
-  when: ansible_distribution != 'OpenBSD' and ansible_os_family != 'Darwin' and ansible_os_family != "Alpine" and kitchen_user is defined and kitchen_user != ''
+  when: >
+    ansible_distribution != 'OpenBSD' and
+    ansible_os_family != 'Darwin' and
+    ansible_os_family != "Alpine" and
+    kitchen_user is defined and kitchen_user
 
 - debug: var=kitchen_deps
 - include: debian.yml
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - include: redhat.yml
-  when: ansible_os_family == "RedHat" or ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_os_family == "RedHat"
 
 - name: check if lxd present
   stat: path=/var/lib/lxd
@@ -41,4 +45,3 @@
         backup: yes
         validate: 'visudo -cf %s'
   when: havedocker.stat.exists
-
