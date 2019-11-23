@@ -7,7 +7,7 @@
     - set_fact:
         kitchen_gemlist_version:
           - { name: rubyzip, version: 1.3.0 }
-          - { name: test-kitchen, version: 2.3.4 }
+          - { name: test-kitchen, version: 2.3.3 }
           - { name: kitchen-ansible, version: 0.50.1 }
           - { name: kitchen-salt, version: 0.6.0 }
           - { name: kitchen-vagrant, version: 1.6.0 }
