@@ -5,6 +5,18 @@
   register: pkg_result
   until: pkg_result is success
 
+- name: RedHat | install kitchen+version modules with gem - user
+  gem:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    state: present
+  with_items: "{{ kitchen_gemlist_version }}"
+  become: yes
+  become_user: "{{ kitchen_user }}"
+  when: kitchen_user is defined and kitchen_user
+  register: pkg_result
+  until: pkg_result is success
+
 - name: RedHat | install kitchen modules with gem - user
   gem:
     name: "{{ item }}"
@@ -17,6 +29,17 @@
   until: pkg_result is success
 
 ## FIXME! idempotency OK xenial, NOK trusty+centos7
+- name: RedHat | install kitchen+version modules with gem - global
+  gem:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    state: present
+    user_install: no
+  with_items: "{{ kitchen_gemlist_version }}"
+  become: yes
+  when: kitchen_user is not defined or not kitchen_user
+  register: pkg_result
+  until: pkg_result is success
 - name: RedHat | install kitchen modules with gem - global
   gem:
     name: "{{ item }}"

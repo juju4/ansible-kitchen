@@ -3,5 +3,10 @@
 - hosts: all
   vars:
     - kitchen_user: _kitchen
+  pre_tasks:
+    - kitchen_gemlist_version:
+        - { name: rubyzip, version: 1.3.0 }
+      when: >
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int == 16)
   roles:
     - juju4.kitchen

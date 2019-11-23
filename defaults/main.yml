@@ -25,5 +25,9 @@ kitchen_gemlist:
 ## security testing? require additionals lib packages dependencies
 #    - gauntlt
 
+kitchen_gemlist_version: []
+#  - { name: rubyzip, version: 1.3.0 }
+#  - { name: test-kitchen, version: 2.3.4}
+
 ## if defined and not empty, kitchen is set only for this user, else global
 kitchen_user: ''

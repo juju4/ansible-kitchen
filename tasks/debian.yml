@@ -13,6 +13,17 @@
 ##  - send(2)\n", "stdout": "", "stdout_lines": []}
 ##      OK as root, NOK as jenkins but previous executions were working???
 - block:
+    - name: Debian | install kitchen+version modules with gem - user
+      gem:
+        name: "{{ item.name }}"
+        version: "{{ item.version }}"
+        state: present
+        executable: "{{ kitchen_gem }}"
+      with_items: "{{ kitchen_gemlist_version }}"
+      become: yes
+      become_user: "{{ kitchen_user }}"
+      register: pkg_result
+      until: pkg_result is success
     - name: Debian | install kitchen modules with gem - user
       gem:
         name: "{{ item }}"
@@ -32,6 +43,16 @@
 
 - block:
 ## FIXME! idempotency OK xenial, NOK trusty+centos7
+    - name: Debian | install kitchen+version modules with gem - global
+      gem:
+        name: "{{ item.name }}"
+        version: "{{ item.version }}"
+        state: present
+        executable: "{{ kitchen_gem }}"
+        user_install: no
+      with_items: "{{ kitchen_gemlist_version }}"
+      register: pkg_result
+      until: pkg_result is success
     - name: Debian | install kitchen modules with gem - global
       gem:
         name: "{{ item }}"
